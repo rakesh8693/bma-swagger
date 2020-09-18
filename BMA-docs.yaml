@@ -1,0 +1,897 @@
+openapi: 3.0.1
+info:
+  title: BMA API
+  description: BookMark Management Application.
+  version: "1.0"
+servers:
+- url: http://localhost:9090
+  description: Generated server url
+security:
+- basicAuth: []
+paths:
+  /card/{id}:
+    get:
+      tags:
+      - CardController
+      summary: Retrieve Card
+      description: This api is used to retrieve card
+      operationId: retrieveCard
+      parameters:
+      - name: id
+        in: path
+        description: User Id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Card'
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+    put:
+      tags:
+      - CardController
+      summary: Update Card
+      description: This api is used to update card
+      operationId: updateCard
+      parameters:
+      - name: id
+        in: path
+        description: Card Id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: card request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardRequest'
+        required: true
+      responses:
+        "204":
+          description: Successful operation
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+    post:
+      tags:
+      - CardController
+      summary: Create Card
+      description: This api is used to create card
+      operationId: createCard
+      parameters:
+      - name: id
+        in: path
+        description: User Id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: card request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardRequest'
+        required: true
+      responses:
+        "201":
+          description: Successful operation
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+    delete:
+      tags:
+      - CardController
+      summary: Delete Card
+      description: This api is used to delete card
+      operationId: deleteCard
+      parameters:
+      - name: id
+        in: path
+        description: Card Id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "202":
+          description: Successful operation
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+  /validateCard/{id}:
+    get:
+      tags:
+      - CardController
+      summary: Cards To Validate
+      description: This api is used to validate cards
+      operationId: changesToValidate
+      parameters:
+      - name: id
+        in: path
+        description: User Id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: groupCategory
+        in: query
+        description: Categories of group
+        required: true
+        schema:
+          type: string
+          enum:
+          - TRIBE
+          - FEATURETEAM
+          - APPLICATION
+          - PLATFORMS
+      - name: groupName
+        in: query
+        description: Group Name
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Card'
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+  /group/{groupCategory}/export/{groupName}/card:
+    get:
+      tags:
+      - GroupController
+      summary: Export Cards
+      description: This api is used to export cards
+      operationId: exportCards
+      parameters:
+      - name: groupCategory
+        in: path
+        description: Categories of group
+        required: true
+        schema:
+          type: string
+          enum:
+          - TRIBE
+          - FEATURETEAM
+          - APPLICATION
+          - PLATFORMS
+      - name: groupName
+        in: path
+        description: Group Name
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+  /group/{groupCategory}/import/{groupName}/card:
+    post:
+      tags:
+      - GroupController
+      summary: Import Cards
+      description: This api is used to import cards
+      operationId: importCards
+      parameters:
+      - name: groupCategory
+        in: path
+        description: Categories
+        required: true
+        schema:
+          type: string
+          enum:
+          - TRIBE
+          - FEATURETEAM
+          - APPLICATION
+          - PLATFORMS
+      - name: groupName
+        in: path
+        description: Group Name
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: file
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+  /group/{id}:
+    post:
+      tags:
+      - GroupController
+      summary: Add Card To Group
+      description: This api is used to add card to group
+      operationId: addCardToGroup
+      parameters:
+      - name: id
+        in: path
+        description: Card Id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: Group request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupRequest'
+        required: true
+      responses:
+        "204":
+          description: Successful operation
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+  /groupNames/{groupCategory}:
+    get:
+      tags:
+      - GroupController
+      summary: Retrieve Group Names
+      description: This api is used to retrieve groupName based on groupType.
+      operationId: retrieveGroupName
+      parameters:
+      - name: groupCategory
+        in: path
+        description: Categories of group
+        required: true
+        schema:
+          type: string
+          enum:
+          - TRIBE
+          - FEATURETEAM
+          - APPLICATION
+          - PLATFORMS
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: string
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+  /group:
+    post:
+      tags:
+      - GroupController
+      summary: Create Group
+      description: This api is used to create group
+      operationId: createGroup
+      requestBody:
+        description: Group request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupRequest'
+        required: true
+      responses:
+        "201":
+          description: Successful operation
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+  /group/{groupCategory}/card/{groupName}:
+    get:
+      tags:
+      - GroupController
+      summary: Retrieve Card by Group Category And Name
+      description: This api is used to retrieve cards of groups
+      operationId: retrieveCardByGroup
+      parameters:
+      - name: groupCategory
+        in: path
+        description: Categories of group
+        required: true
+        schema:
+          type: string
+          enum:
+          - TRIBE
+          - FEATURETEAM
+          - APPLICATION
+          - PLATFORMS
+      - name: groupName
+        in: path
+        description: Group Name
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Card'
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+  /shortUrl:
+    post:
+      tags:
+      - ShortUrlController
+      summary: Create ShortUrl
+      description: This api is used to create shorturl
+      operationId: createShortUrl
+      requestBody:
+        description: ShortUrl request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShortUrlRequest'
+        required: true
+      responses:
+        "201":
+          description: Successful operation
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+  /shortUrl/{id}:
+    get:
+      tags:
+      - ShortUrlController
+      summary: Retrieve ShortUrls By UserId
+      description: This api is used to retrieve shorturl
+      operationId: retrieveShortUrls
+      parameters:
+      - name: id
+        in: path
+        description: UserId
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ShortUrl'
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+  /shareShortUrl/{id}:
+    get:
+      tags:
+      - ShortUrlController
+      summary: Share ShortUrl
+      description: This api is used to share shorturl
+      operationId: shareShortUrl
+      parameters:
+      - name: id
+        in: path
+        description: ShortUrl Id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Successful operation
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+  /user/{id}:
+    put:
+      tags:
+      - UserController
+      summary: Update User
+      description: This api is used to update user
+      operationId: updateUser
+      parameters:
+      - name: id
+        in: path
+        description: User Id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: User request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "204":
+          description: Successful operation
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+    delete:
+      tags:
+      - UserController
+      summary: Delete User
+      description: This api is used to delete user
+      operationId: deleteUserById
+      parameters:
+      - name: id
+        in: path
+        description: User Id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "202":
+          description: Successful operation
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+  /users:
+    get:
+      tags:
+      - UserController
+      summary: Retrieve Users
+      description: This api is used to retrieve users
+      operationId: retrieveUsers
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/User'
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+  /users/login:
+    get:
+      tags:
+      - UserController
+      summary: userLogin
+      description: This api is used for userLogin
+      operationId: userLogin
+      parameters:
+      - name: userName
+        in: query
+        description: UserName
+        required: true
+        schema:
+          type: string
+      - name: password
+        in: query
+        description: password
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/User'
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+  /user:
+    post:
+      tags:
+      - UserController
+      summary: Create User
+      description: This api is used to create user
+      operationId: createUser
+      requestBody:
+        description: User request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "201":
+          description: Successful operation
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        "404":
+          description: ResourceNotFound
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+      security: []
+components:
+  schemas:
+    CardRequest:
+      type: object
+      properties:
+        surlId:
+          type: integer
+          format: int32
+        title:
+          type: string
+        description:
+          type: string
+        icon:
+          type: string
+    GenericResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        description:
+          type: string
+    Card:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        title:
+          type: string
+        description:
+          type: string
+        icon:
+          type: string
+        validate:
+          type: integer
+          format: int32
+    GroupRequest:
+      type: object
+      properties:
+        groupCategory:
+          type: string
+          enum:
+          - TRIBE
+          - FEATURETEAM
+          - APPLICATION
+          - PLATFORMS
+        groupname:
+          type: string
+        userid:
+          type: integer
+          format: int32
+    ShortUrlRequest:
+      type: object
+      properties:
+        longurl:
+          type: string
+        expiryDate:
+          type: string
+          format: date-time
+        userId:
+          type: integer
+          format: int32
+    ShortUrl:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        lurl:
+          type: string
+        surl:
+          type: string
+        expiryDate:
+          type: string
+          format: date-time
+        card:
+          $ref: '#/components/schemas/Card'
+    User:
+      type: object
+      properties:
+        userName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      name: basicAuth
+      scheme: basic
